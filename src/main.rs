@@ -18,10 +18,11 @@ struct Args {
     verbose: bool,
 }
 
-fn main() -> anyhow::Result<()> {
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
     let args = Args::parse();
 
-    let subdomains = enumerate_subdomains(&args.domain)?;
+    let subdomains = enumerate_subdomains(&args.domain).await?;
 
     if args.verbose {
         eprintln!("Found {} unique subdomains (after filtering wildcards)", subdomains.len());

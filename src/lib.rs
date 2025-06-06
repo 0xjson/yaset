@@ -4,14 +4,24 @@ pub mod modules;
 use anyhow::Result;
 use std::collections::HashSet;
 
-pub fn enumerate_subdomains(domain: &str) -> Result<HashSet<String>> {
-    let mut subdomains = HashSet::new();
-
+pub async fn enumerate_subdomains(domain: &str) -> Result<HashSet<String>> {
     let crtsh = modules::Crtsh;
-    if let Ok(results) = crtsh.enumerate(domain) {
+    let chaos = modules::Chaos;
+
+    let (crtsh_results, chaos_results) = tokio::join!(
+        crtsh.enumerate(domain),
+        chaos.enumerate(domain)
+    );
+    
+    let mut subdomains: HashSet<String> = HashSet::new();
+
+    if let Ok(results) = crtsh_results {
         subdomains.extend(results);
     }
 
+    if let Ok(results) = chaos_results {
+        subdomains.extend(results);
+    }
     // additional filtering to remove any remaining wildcards or invalid entries
     let filtered: HashSet<String> = subdomains
         .into_iter()

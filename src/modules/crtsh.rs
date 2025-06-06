@@ -7,11 +7,13 @@ struct CrtshEntry {
     name_value: String, 
 }
 
-pub fn enumerate(domain: &str) -> Result<HashSet<String>> {
+pub async fn enumerate(domain: &str) -> Result<HashSet<String>> {
     let url = format!("https://crt.sh/?q=%25.{}&output=json", domain);
-    let entries: Vec<CrtshEntry> = reqwest::blocking::get(&url)
+    let entries: Vec<CrtshEntry> = reqwest::get(&url)
+        .await
         .with_context(|| format!("Failed to query crt.sh for {}", domain))?
         .json()
+        .await
         .with_context(|| "Failed to parse crt.sh response")?;
 
     // let subdomains: HashSet<String> = entries
