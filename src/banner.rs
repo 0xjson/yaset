@@ -1,9 +1,9 @@
 use colored::*;
 
 pub fn show_banner() {
+    println!("{}", "~".repeat(50).dimmed());
     println!(
         r#"
-    {}
 
     ▄██   ▄      ▄████████    ▄████████    ▄████████     ███     
     ███   ██▄   ███    ███   ███    ███   ███    ███ ▀█████████▄ 
@@ -15,8 +15,7 @@ pub fn show_banner() {
      ▀█████▀    ███    █▀   ▄████████▀    ██████████    ▄████▀   
     {} v{} - {}
     "#,
-        "YESET".bright_cyan().bold(),
-        "Yet Another Subdomain Enumeration Tool".bright_white(),
+        "Yet Another Subdomain Enumeration Tool".bright_cyan(),
         env!("CARGO_PKG_VERSION").bright_green(),
         "by js0nn".bright_magenta()
     );
