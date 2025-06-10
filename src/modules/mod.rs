@@ -1,6 +1,7 @@
 pub mod asnmap;
 pub mod crtsh;
 pub mod chaos;
+pub mod hprobe;
 pub mod traits;
 
 use anyhow::Result;

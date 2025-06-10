@@ -9,8 +9,16 @@ reqwest = { version = "0.11", features = ["json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 clap = { version = "4.0", features = ["derive"] }
-tokio = { version = "1.0", features = ["full"] }
+tokio = { version = "1.0", features = ["full", "sync"] }
 anyhow = "1.0"
 thiserror = "1.0"
 colored = "2.0"
 ipnetwork = "0.21.1"
+futures = "0.3"
+probe = "0.5.1"
+rand = "0.9.1"
+
+[profile.release]
+opt-level = 3  # Default (0-3, higher = more optimizations)
+lto = true     # Link-Time Optimization (slower compile, faster runtime)
+codegen-units = 1  # Fewer threads → better optimizations (slower compile)

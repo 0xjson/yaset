@@ -25,7 +25,12 @@ pub async fn enumerate_subdomains(domain: &str) -> Result<HashSet<String>> {
     // additional filtering to remove any remaining wildcards or invalid entries
     let filtered: HashSet<String> = subdomains
         .into_iter()
-        .filter(|s: &String| !s.starts_with('*') && !s.is_empty())
+        .filter(|s| {
+            !s.starts_with('*') &&
+            !s.is_empty() &&
+            !s.starts_with('.') &&
+            s.contains('.')
+        })
         .collect();
 
     Ok(filtered)
